@@ -1,7 +1,5 @@
 package org.lyup.coursesystem.courseweb.controller;
 
-
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
