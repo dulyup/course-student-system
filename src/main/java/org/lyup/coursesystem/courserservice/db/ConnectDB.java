@@ -1,5 +1,6 @@
 package org.lyup.coursesystem.courserservice.db;
 
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
@@ -26,11 +27,11 @@ public class ConnectDB {
      */
     private static AmazonDynamoDB init() {
         try {
-            ProfileCredentialsProvider credentialsProvider = new ProfileCredentialsProvider();
-            credentialsProvider.getCredentials();
+//            ProfileCredentialsProvider credentialsProvider = new ProfileCredentialsProvider();
+//            credentialsProvider.getCredentials();
             client = AmazonDynamoDBClientBuilder
                     .standard()
-                    .withCredentials(credentialsProvider)
+                    .withCredentials(DefaultAWSCredentialsProviderChain.getInstance())
                     .withRegion("us-west-2")
                     .build(); //return dynamoDB
         }catch (Exception e) {

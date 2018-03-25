@@ -51,7 +51,7 @@ public class StudentController {
         return studentManager.listCourseList(id);
     }
 
-    @POST
+    @PUT
     @Path("/{studentId}/{courseId}")
     public Boolean addStudentCourseByAndStuIdCourseId(@PathParam("studentId") String stuId, @PathParam("courseId") String courseId) {
         return studentManager.addStudentCourseByStudentIdAndCourseId(stuId, courseId);

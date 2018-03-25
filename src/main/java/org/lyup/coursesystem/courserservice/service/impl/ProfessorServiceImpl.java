@@ -21,9 +21,9 @@ public class ProfessorServiceImpl implements ProfessorService{
 	@Override
 	public Boolean addProfessor(Professor professor) {
 		//set id and maintain unique
-		String id = IdGeneratorUtil.generateId("prog", count);
+		String id = IdGeneratorUtil.generateId("prof", count);
 		while (getProfessorById(id) != null) {
-			id = IdGeneratorUtil.generateId("prog", count);
+			id = IdGeneratorUtil.generateId("prof", count);
 		}
 		//deal with empty set problem which is not allowed by dynamodb 
 		if (professor.getCourseSet().size() == 0) {

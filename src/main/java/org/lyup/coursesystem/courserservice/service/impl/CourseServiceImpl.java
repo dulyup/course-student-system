@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.lyup.coursesystem.courserservice.db.ConnectDB;
-import org.lyup.coursesystem.courserservice.lambda.EmailStudentNotif;
+import org.lyup.coursesystem.courserservice.lambda.EmailStudentAnnouncement;
 import org.lyup.coursesystem.courserservice.model.Course;
 import org.lyup.coursesystem.courserservice.service.CourseService;
 import org.lyup.coursesystem.courserservice.util.IdGeneratorUtil;
@@ -41,7 +41,7 @@ public class CourseServiceImpl implements CourseService{
 		if (course.getLectureSet().size() == 0) {
 			course.setLectureSet(null);
 		}
-    		course.setTopicArn(EmailStudentNotif.createTopic("course"));
+    		course.setTopicArn(EmailStudentAnnouncement.createTopic("course"));
         mapper.save(course);
         return true;
     }
