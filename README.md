@@ -11,7 +11,7 @@
 ## Features
 * Create a topic with topic ARN everytime a new course created.
 * Students subscribe the topic automatically once registered the course, and unsubscribe once drop the course.
-* Lambda is responsible for monitoring the Announcement talbe, everytime a new annoucement posted, all enrolled students get the notification via email.
+* Lambda is responsible for monitoring the Announcement table, everytime a new annoucement posted, all enrolled students get the notification via email.
 
 ## RESTful API Implemented:
 **For Program:**
