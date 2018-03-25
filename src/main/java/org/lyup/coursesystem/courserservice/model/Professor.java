@@ -25,6 +25,6 @@ class Professor {
     private String email;
 
     @DynamoDBAttribute(attributeName = "course_id")
-    private Set<String> courseId;
+    private Set<String> courseSet;
 
 }

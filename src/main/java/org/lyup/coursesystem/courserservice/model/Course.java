@@ -25,6 +25,9 @@ class Course {
     @DynamoDBAttribute(attributeName = "board")
     private String board;
 
+    @DynamoDBAttribute(attributeName = "topic_arn")
+    private String topicArn;
+    
     @DynamoDBAttribute(attributeName = "lecture_set")
     private Set<String> lectureSet = new HashSet<>();
 

@@ -1,19 +1,26 @@
 package org.lyup.coursesystem.courseweb.manager.impl;
 
 
+import org.lyup.coursesystem.courserservice.model.Course;
 import org.lyup.coursesystem.courserservice.model.Program;
+import org.lyup.coursesystem.courserservice.model.Student;
+import org.lyup.coursesystem.courserservice.service.CourseService;
 import org.lyup.coursesystem.courserservice.service.ProgramService;
+import org.lyup.coursesystem.courserservice.service.StudentService;
+import org.lyup.coursesystem.courserservice.service.impl.CourseServiceImpl;
 import org.lyup.coursesystem.courserservice.service.impl.ProgramServiceImpl;
+import org.lyup.coursesystem.courserservice.service.impl.StudentServiceImpl;
 import org.lyup.coursesystem.courseweb.manager.ProgramManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class ProgramManagerImpl implements ProgramManager{
 
     private ProgramService programService = new ProgramServiceImpl();
-//    private StudentService studentService = new StudentServiceImpl();
-//    private CourseService courseService = new CourseServiceImpl();
+    private StudentService studentService = new StudentServiceImpl();
+    private CourseService courseService = new CourseServiceImpl();
 
     @Override
     public List<Program> listAllPrograms() {
@@ -40,37 +47,37 @@ public class ProgramManagerImpl implements ProgramManager{
         return programService.removeProgramById(id);
     }
 
-//    @Override
-//    public List<Course> listProgramCoursesByProgramId(String id) {
-//        List<Course> programCourseList = new ArrayList<>();
-//        Set<String> courseIdSet = programService.getProgramById(id).getCourseSet();
-//        for (String courseId: courseIdSet) {
-//            programCourseList.add(courseService.getCourseById(courseId));
-//        }
-//        return programCourseList;
-//    }
-//
-//    @Override
-//    public List<Student> listProgramStudentsByProgramId(String id) {
-//        List<Student> programStudentList = new ArrayList<>();
-//        List<Student> allStudentList = studentService.listAllStudents();
-//        for (Student student: allStudentList) {
-//            if (id.equals(student.getProgramId())) {
-//                programStudentList.add(student);
-//            }
-//        }
-//        return programStudentList;
-//    }
-//
-//    @Override
-//    public Boolean addProgramCourseByProgramIdAndCourseId(String id, String courseId) {
-//        programService.getProgramById(id).getCourseSet().add(courseId);
-//        return true;
-//    }
-//
-//    @Override
-//    public Boolean removeProgramCourseByProgramIdAndCourseId(String id, String courseId) {
-//        programService.getProgramById(id).getCourseSet().remove(courseId);
-//        return true;
-//    }
+    @Override
+    public List<Course> listProgramCoursesByProgramId(String id) {
+        List<Course> programCourseList = new ArrayList<>();
+        Set<String> courseIdSet = programService.getProgramById(id).getCourseSet();
+        for (String courseId: courseIdSet) {
+            programCourseList.add(courseService.getCourseById(courseId));
+        }
+        return programCourseList;
+    }
+
+    @Override
+    public List<Student> listProgramStudentsByProgramId(String id) {
+        List<Student> programStudentList = new ArrayList<>();
+        List<Student> allStudentList = studentService.listAllStudents();
+        for (Student student: allStudentList) {
+            if (id.equals(student.getProgramId())) {
+                programStudentList.add(student);
+            }
+        }
+        return programStudentList;
+    }
+
+    @Override
+    public Boolean addProgramCourseByProgramIdAndCourseId(String id, String courseId) {
+        programService.getProgramById(id).getCourseSet().add(courseId);
+        return true;
+    }
+
+    @Override
+    public Boolean removeProgramCourseByProgramIdAndCourseId(String id, String courseId) {
+        programService.getProgramById(id).getCourseSet().remove(courseId);
+        return true;
+    }
 }

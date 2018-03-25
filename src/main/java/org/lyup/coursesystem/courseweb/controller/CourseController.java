@@ -49,13 +49,13 @@ public class CourseController {
     @POST
     @Path("/{courseId}")
     public Boolean addAnnouncementByCourseId(@PathParam("courseId") String id, Announcement an) {
-        return courseManager.addAnnouncementByCourseId(id, an);
+        return courseManager.addAnnouncementByCourseIdAndAnnoun(id, an);
     }
 
     @DELETE
     @Path("/{courseId}/{anId}")
     public Boolean removeAnnouncementByCourseId(@PathParam("courseId") String id, @PathParam("anId") String anId) {
-        return courseManager.removeAnnouncementByCourseId(id, anId);
+        return courseManager.removeAnnouncementByCourseIdAndAnId(id, anId);
     }
 
     @GET

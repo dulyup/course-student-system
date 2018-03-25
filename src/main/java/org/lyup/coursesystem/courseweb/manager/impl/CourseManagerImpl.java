@@ -88,14 +88,14 @@ public class CourseManagerImpl implements CourseManager{
     }
 
     @Override
-    public Boolean addAnnouncementByCourseId(String courseId, Announcement an) {
+    public Boolean addAnnouncementByCourseIdAndAnnoun(String courseId, Announcement an) {
         announcementService.addAnnouncement(an);
         courseService.getCourseById(courseId).getAnnouncementSet().add(an.getAnId());
         return true;
     }
 
     @Override
-    public Boolean removeAnnouncementByCourseId(String courseId, String anId) {
+    public Boolean removeAnnouncementByCourseIdAndAnId(String courseId, String anId) {
         courseService.getCourseById(courseId).getAnnouncementSet().remove(anId);
         announcementService.removeAnnouncementById(anId);
         return true;

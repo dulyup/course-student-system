@@ -3,11 +3,13 @@ package org.lyup.coursesystem.courserservice.service.impl;
 import org.lyup.coursesystem.courserservice.db.ConnectDB;
 import org.lyup.coursesystem.courserservice.model.Announcement;
 import org.lyup.coursesystem.courserservice.service.AnnouncementService;
+import org.lyup.coursesystem.courserservice.util.IdGeneratorUtil;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 
 public class AnnouncementServiceImpl implements AnnouncementService{
 
+	private int count = (int) (Math.random()*10000);
     private DynamoDBMapper mapper = ConnectDB.getMapper;
 
     @Override
@@ -17,6 +19,11 @@ public class AnnouncementServiceImpl implements AnnouncementService{
 
     @Override
     public Boolean addAnnouncement(Announcement an) {
+    		String id = IdGeneratorUtil.generateId("c", count);
+		while (getAnnouncementById(id) != null) {
+			id = IdGeneratorUtil.generateId("c", count);
+		}
+		an.setAnId(id);
         mapper.save(an);
         return true;
     }

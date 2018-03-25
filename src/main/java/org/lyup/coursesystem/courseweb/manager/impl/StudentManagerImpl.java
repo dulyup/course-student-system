@@ -1,8 +1,10 @@
 package org.lyup.coursesystem.courseweb.manager.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
+import org.lyup.coursesystem.courserservice.lambda.EmailStudentNotif;
 import org.lyup.coursesystem.courserservice.model.Course;
 import org.lyup.coursesystem.courserservice.model.Student;
 import org.lyup.coursesystem.courserservice.service.CourseService;
@@ -58,11 +60,22 @@ public class StudentManagerImpl implements StudentManager{
 
     @Override
     public Boolean addStudentCourseByStudentIdAndCourseId(String stuId, String courseId) {
-        return studentService.getStudentById(stuId).getCourseSet().add(courseId);
+    	String topicArn = courseService.getCourseById(courseId).getTopicArn();
+		Student student = studentService.getStudentById(stuId);
+		EmailStudentNotif.subscribe(topicArn, student.getEmail());
+		if (student.getCourseSet() == null) {
+			student.setCourseSet(new HashSet<String>());
+		}
+		student.getCourseSet().add(courseId);
+		return studentService.updateStudent(stuId, student);
     }
 
     @Override
     public Boolean removeStudentCourseByStudentIdAndCourseId(String stuId, String courseId) {
-        return studentService.getStudentById(stuId).getCourseSet().remove(courseId);
+    		String topicArn = courseService.getCourseById(courseId).getTopicArn();
+		Student student = studentService.getStudentById(stuId);
+		EmailStudentNotif.unsubscribe(topicArn);
+        student.getCourseSet().remove(courseId);
+        return studentService.updateStudent(stuId, student);
     }
 }

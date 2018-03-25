@@ -51,32 +51,32 @@ public interface ProgramManager {
      * @param id
      * @return
      */
-//    public List<Course> listProgramCoursesByProgramId(String id);
-//
-//    /**
-//     * get all students of a program
-//     *
-//     * @param id
-//     * @return
-//     */
-//    public List<Student> listProgramStudentsByProgramId(String id);
-//
-//    /**
-//     * add course for a program
-//     *
-//     * @param programId
-//     * @param courseId
-//     * @return
-//     */
-//    public Boolean addProgramCourseByProgramIdAndCourseId(String programId, String courseId);
-//
-//    /**
-//     * delete course from a program
-//     *
-//     * @param programId
-//     * @param courseId
-//     * @return
-//     */
-//    public Boolean removeProgramCourseByProgramIdAndCourseId(String programId, String courseId);
+    public List<Course> listProgramCoursesByProgramId(String id);
+
+    /**
+     * get all students of a program
+     *
+     * @param id
+     * @return
+     */
+    public List<Student> listProgramStudentsByProgramId(String id);
+
+    /**
+     * add course for a program
+     *
+     * @param programId
+     * @param courseId
+     * @return
+     */
+    public Boolean addProgramCourseByProgramIdAndCourseId(String programId, String courseId);
+
+    /**
+     * delete course from a program
+     *
+     * @param programId
+     * @param courseId
+     * @return
+     */
+    public Boolean removeProgramCourseByProgramIdAndCourseId(String programId, String courseId);
     
 }
