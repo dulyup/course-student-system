@@ -13,7 +13,7 @@
 * Students subscribe the topic automatically once registered the course, and unsubscribe once drop the course.
 * Lambda is responsible for monitoring the Announcement talbe, everytime a new annoucement posted, all enrolled students get the notification via email.
 
-## Implemented RESTful API:
+## RESTful API Implemented:
 **For Program:**
 
 | URI         | REQUEST | NOTE |
