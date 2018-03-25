@@ -3,7 +3,9 @@ package org.lyup.coursesystem.courseweb.controller;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
+import org.lyup.coursesystem.courserservice.model.Course;
 import org.lyup.coursesystem.courserservice.model.Program;
+import org.lyup.coursesystem.courserservice.model.Student;
 import org.lyup.coursesystem.courseweb.manager.ProgramManager;
 import org.lyup.coursesystem.courseweb.manager.impl.ProgramManagerImpl;
 
@@ -44,27 +46,27 @@ public class ProgramController {
         programManager.removeProgramById(id);
     }
 
-//    @GET
-//    @Path("/{programId}/courses")
-//    public List<Course> listProgramCourses(@PathParam("programId") String id) {
-//        return programManager.listProgramCoursesByProgramId(id);
-//    }
-//
-//    @GET
-//    @Path("/{programId}/students")
-//    public List<Student> getProgramStudents(@PathParam("programId") String id) {
-//        return programManager.listProgramStudentsByProgramId(id);
-//    }
-//
-//    @POST
-//    @Path("/{programId}/courses")
-//    public boolean addProgramCourse(@PathParam("programId") String programId, String courseId) {
-//        return programManager.addProgramCourseByProgramIdAndCourseId(programId, courseId);
-//    }
-//
-//    @DELETE
-//    @Path("/{programId}/courses")
-//    public boolean removeProgramCourse(@PathParam("programId") String programId, String courseId) {
-//        return programManager.removeProgramCourseByProgramIdAndCourseId(programId, courseId);
-//    }
+    @GET
+    @Path("/{programId}/courses")
+    public List<Course> listProgramCourses(@PathParam("programId") String id) {
+        return programManager.listProgramCoursesByProgramId(id);
+    }
+
+    @GET
+    @Path("/{programId}/students")
+    public List<Student> getProgramStudents(@PathParam("programId") String id) {
+        return programManager.listProgramStudentsByProgramId(id);
+    }
+
+    @POST
+    @Path("/{programId}/courses")
+    public boolean addProgramCourse(@PathParam("programId") String programId, String courseId) {
+        return programManager.addProgramCourseByProgramIdAndCourseId(programId, courseId);
+    }
+
+    @DELETE
+    @Path("/{programId}/courses/{courseId}")
+    public boolean removeProgramCourse(@PathParam("programId") String programId, @PathParam("courseId")String courseId) {
+        return programManager.removeProgramCourseByProgramIdAndCourseId(programId, courseId);
+    }
 }
