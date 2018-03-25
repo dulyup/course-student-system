@@ -44,27 +44,27 @@ public class ProgramController {
         programManager.removeProgramById(id);
     }
 
-//    @GET
-//    @Path("/{programId}/courses")
-//    public List<Course> listProgramCourses(@PathParam("programId") String id) {
-//        return programManager.listProgramCoursesByProgramId(id);
-//    }
-//
-//    @GET
-//    @Path("/{programId}/students")
-//    public List<Student> getProgramStudents(@PathParam("programId") String id) {
-//        return programManager.listProgramStudentsByProgramId(id);
-//    }
-//
-//    @POST
-//    @Path("/{programId}/courses")
-//    public boolean addProgramCourse(@PathParam("programId") String programId, String courseId) {
-//        return programManager.addProgramCourseByProgramIdAndCourseId(programId, courseId);
-//    }
-//
-//    @DELETE
-//    @Path("/{programId}/courses")
-//    public boolean removeProgramCourse(@PathParam("programId") String programId, String courseId) {
-//        return programManager.removeProgramCourseByProgramIdAndCourseId(programId, courseId);
-//    }
+    @GET
+    @Path("/{programId}/courses")
+    public List<Course> listProgramCourses(@PathParam("programId") String id) {
+        return programManager.listProgramCoursesByProgramId(id);
+    }
+
+    @GET
+    @Path("/{programId}/students")
+    public List<Student> getProgramStudents(@PathParam("programId") String id) {
+        return programManager.listProgramStudentsByProgramId(id);
+    }
+
+    @POST
+    @Path("/{programId}/courses")
+    public boolean addProgramCourse(@PathParam("programId") String programId, String courseId) {
+        return programManager.addProgramCourseByProgramIdAndCourseId(programId, courseId);
+    }
+
+    @DELETE
+    @Path("/{programId}/courses")
+    public boolean removeProgramCourse(@PathParam("programId") String programId, String courseId) {
+        return programManager.removeProgramCourseByProgramIdAndCourseId(programId, courseId);
+    }
 }
