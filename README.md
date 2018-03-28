@@ -6,7 +6,7 @@ Jersey REST Api
 * Database: DynamoDB
 * Microservice: Lambda, SNS
 * Storage: S3, 
-* Deployment: ElasticBeanStalk
+* Deployment: Elastic Beanstalk
 * Security: IAM
 
 ## Features
