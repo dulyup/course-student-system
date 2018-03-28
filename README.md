@@ -1,12 +1,13 @@
-# course-student-system
+# Student Information System
+Jersey REST Api
 
 ## Techniques
+* Backend: Java, Jersey, Maven, Tomcat
 * Database: DynamoDB
 * Microservice: Lambda, SNS
 * Storage: S3, 
 * Deployment: ElasticBeanStalk
 * Security: IAM
-* Backend: Java, Maven, Tomcat
 
 ## Features
 * Create a topic with topic ARN everytime a new course created.
