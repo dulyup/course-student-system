@@ -42,7 +42,6 @@ Jersey REST Api
 | ../courses/{courseId} | POST  | 
 | ../courses/{courseId}/{anId} | DELETE | 
 
-
 **For Student:**
 
 | URI         | REQUEST | NOTE |
@@ -59,3 +58,11 @@ Jersey REST Api
 | :---        | :----   |
 | ../lectures | GET, POST | 
 | ../lectures/{lectureId} | GET, PUT, DELETE | 
+
+
+**For Professor:**
+
+| URI         | REQUEST | 
+| :---        | :----   |
+| ../professors | GET, POST | 
+| ../professors/{professorId} | GET, PUT, DELETE | 
