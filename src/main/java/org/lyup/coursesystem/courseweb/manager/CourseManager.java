@@ -90,7 +90,7 @@ public interface CourseManager {
      * @param an
      * @return
      */
-    public Boolean addAnnouncementByCourseIdAndAnnoun(String courseId, Announcement an);
+    public Boolean addAnnouncementByCourseIdAndAnnoun(String id, Announcement an);
 
     /**
      * remove an announcement from a course
@@ -99,4 +99,6 @@ public interface CourseManager {
      * @return
      */
     public Boolean removeAnnouncementByCourseIdAndAnId(String courseId, String anId);
+    
+    public Boolean addCourseProfessorByCourseId(String courseId, String profId);
 }

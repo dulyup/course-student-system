@@ -5,6 +5,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.lyup.coursesystem.courserservice.model.Announcement;
 import org.lyup.coursesystem.courserservice.model.Course;
+import org.lyup.coursesystem.courserservice.model.Professor;
 import org.lyup.coursesystem.courserservice.model.Student;
 import org.lyup.coursesystem.courseweb.manager.CourseManager;
 import org.lyup.coursesystem.courseweb.manager.impl.CourseManagerImpl;
@@ -58,6 +59,12 @@ public class CourseController {
         return courseManager.removeAnnouncementByCourseIdAndAnId(id, anId);
     }
 
+    @POST
+    @Path("/{courseId}/{professorId}")
+    public Boolean addProfessorByCourseId(@PathParam("courseId") String id, @PathParam("professorId") String profId) {
+        return courseManager.addCourseProfessorByCourseId(id, profId);
+    }
+    
     @GET
     @Path("/{courseId}/students")
     public List<Student> getCourseStudents(@PathParam("courseId") String id) {

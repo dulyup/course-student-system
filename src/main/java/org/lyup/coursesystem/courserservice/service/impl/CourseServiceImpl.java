@@ -41,6 +41,9 @@ public class CourseServiceImpl implements CourseService{
 		if (course.getLectureSet().size() == 0) {
 			course.setLectureSet(null);
 		}
+		if (course.getAnnouncementSet().size() == 0) {
+			course.setAnnouncementSet(null);
+		}
     		course.setTopicArn(EmailStudentAnnouncement.createTopic("course"));
         mapper.save(course);
         return true;
@@ -49,6 +52,12 @@ public class CourseServiceImpl implements CourseService{
     @Override
     public Boolean updateCourse(String id, Course course) {
         course.setCourseId(id);
+        if (course.getLectureSet().size() == 0) {
+			course.setLectureSet(null);
+		}
+		if (course.getAnnouncementSet().size() == 0) {
+			course.setAnnouncementSet(null);
+		}
         mapper.save(course);
         return true;
     }

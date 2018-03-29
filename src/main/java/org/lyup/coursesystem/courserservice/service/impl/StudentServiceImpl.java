@@ -48,6 +48,9 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public Boolean updateStudent(String id, Student student) {
         student.setStuId(id);
+        if (student.getCourseSet().size() == 0) {
+			student.setCourseSet(null);
+		}
         mapper.save(student);
         return true;
     }

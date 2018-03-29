@@ -22,102 +22,112 @@ import com.amazonaws.services.sns.model.UnsubscribeRequest;
 public class EmailStudentAnnouncement implements RequestHandler<DynamodbEvent, String> {
 
 	private static AmazonSNS SNS_CLIENT = AmazonSNSClientBuilder.standard().withRegion(Regions.US_WEST_2).build();
-	
-    @Override
-    public String handleRequest(DynamodbEvent input, Context context) {
-    	String message = "";
-        // Read DDB Records
-        for (DynamodbEvent.DynamodbStreamRecord record: input.getRecords()) {
-            if (record == null) {
-                continue;
-            }
 
-            //Send notification
-            message = formatMessage(record);
-            String subject = formatSubject(record);
-            // Business Logic to decide to send a notification
-            
-            // send Notification
-            String courseId = record.getDynamodb().getNewImage().get("courseId").getS();
-            String topicArn = getTopicArnByCourseId(courseId);
-            sendEmailNotification(topicArn, message, subject);
-        }
-        return message;
-    }
+	@Override
+	public String handleRequest(DynamodbEvent input, Context context) {
+		String message = "hi";
+		String subject = "hi";
+		// Read DDB Records
+		if (input.getRecords() != null) {
+			for (DynamodbEvent.DynamodbStreamRecord record : input.getRecords()) {
+				if (record == null || record.getEventName().equals("REMOVE")) {
+					continue;
+				}
+				context.getLogger().log("Record: " + record);
+				// Send notification
+				message = formatMessage(record);		
+				subject = formatSubject(record);
+				// Business Logic to decide to send a notification
 
-    /**
-     * Call this function to create topic once a new course created 
-     * @param topicName
-     * @return
-     */
-    public static String createTopic(String topicName) {
-    	return SNS_CLIENT.createTopic(topicName).getTopicArn();
-    }
-    	
-    /**
-     * end point: The end point that you want to receive notifications.
-     */
-    public static Boolean subscribe(String topicArn, String email) {
-        SNS_CLIENT.subscribe(topicArn, "email", email);
-        return true;
-    }
-    
-    public static Boolean unsubscribe(String topicArn) {
-	    	SNS_CLIENT.unsubscribe(new UnsubscribeRequest(topicArn));
-	    	return true;
-    }
-    
-    private String getTopicArnByCourseId(String courseId) {
-    	return new CourseServiceImpl().getCourseById(courseId).getTopicArn();
-    }
-    
-    private String formatSubject(DynamodbStreamRecord record) {
-    	Map<String, AttributeValue> map = record.getDynamodb().getNewImage();
-    	String courseId = map.get("courseId").getS();
-    	StringBuilder sb = new StringBuilder();
-    	sb.append("Message from Course ");
-    	sb.append(courseId);
-    	return sb.toString();
-    }
-    
-    private String formatMessage(DynamodbStreamRecord record) {
-    	Map<String, AttributeValue> map = record.getDynamodb().getNewImage();
-    	String message = map.get("message").getS();
-    	String courseId = map.get("courseId").getS();
-    	Course course = new CourseManagerImpl().getCourseById(courseId);
-    	String courseName = course.getCourseName();
-    	String profId = course.getProfId();
-    	Professor prof = new ProfessorManagerImpl().getProfessorById(profId);
-    	String profName = "To Be Announced";
-    	String profEmail = "To Be Announced";
-    	if (prof != null) {
-    		profName = prof.getPFirstName() + " " + prof.getPLastName();
-        	profEmail = prof.getEmail();
-    	}
-    	StringBuilder sb = new StringBuilder();
-    	sb.append("You have new message from Course: ");
-    	sb.append(courseId);
-    	sb.append("\n");
-    	sb.append("Course Name: ");
-    	sb.append(courseName);
-    	sb.append("\n");
-    	sb.append("Professor: ");
-    	sb.append(profName);
-    	sb.append("\n");
-    	sb.append("Email: ");
-    	sb.append(profEmail);
-    	sb.append("\n");
-    	sb.append("Announcement: ");
-    	sb.append(message);
-    	sb.append("\n");
-    	return sb.toString();
+				// send Notification
+				String courseId = record.getDynamodb().getNewImage().get("courseId").getS();
+				String topicArn = getTopicArnByCourseId(courseId);
+				sendEmailNotification(topicArn, message, subject);
+			}
+		}
+		return message;
 	}
 
-    private void sendEmailNotification(String topicArn, final String message, final String subject) {
-        // Message Object
-        PublishRequest publishRequest = new PublishRequest(topicArn, message, subject);
-        // Call Client.publishMessage
-        SNS_CLIENT.publish(publishRequest);
-    }
-    
+	/**
+	 * Call this function to create topic once a new course created
+	 * 
+	 * @param topicName
+	 * @return
+	 */
+	public static String createTopic(String topicName) {
+		return SNS_CLIENT.createTopic(topicName).getTopicArn();
+	}
+
+	/**
+	 * end point: The end point that you want to receive notifications.
+	 */
+	public static Boolean subscribe(String topicArn, String email) {
+		SNS_CLIENT.subscribe(topicArn, "email", email);
+		return true;
+	}
+
+	public static Boolean unsubscribe(String topicArn) {
+		SNS_CLIENT.unsubscribe(new UnsubscribeRequest(topicArn));
+		return true;
+	}
+
+	private String getTopicArnByCourseId(String courseId) {
+		return new CourseServiceImpl().getCourseById(courseId).getTopicArn();
+	}
+
+	private String formatSubject(DynamodbStreamRecord record) {
+		System.out.println("map:" + record.getDynamodb().getNewImage());
+		Map<String, AttributeValue> map = record.getDynamodb().getNewImage();
+		String courseId = map.get("anId").getS();
+		StringBuilder sb = new StringBuilder();
+		sb.append("Message from Course ");
+		sb.append(courseId);
+		return sb.toString();
+	}
+
+	private String formatMessage(DynamodbStreamRecord record) {
+		Map<String, AttributeValue> map = record.getDynamodb().getNewImage();
+		StringBuilder sb = new StringBuilder();
+		if (map != null) {
+			String message = map.get("message").getS();
+			System.out.println(map.get("anId").getS());
+			System.out.println(map.get("an_id").getS());
+			String courseId = map.get("anId").getS();
+			Course course = new CourseManagerImpl().getCourseById(courseId);
+			String courseName = course.getCourseName();
+			String profId = course.getProfId();
+			Professor prof = new ProfessorManagerImpl().getProfessorById(profId);
+			String profName = "To Be Announced";
+			String profEmail = "To Be Announced";
+			if (prof != null) {
+				profName = prof.getPFirstName() + " " + prof.getPLastName();
+				profEmail = prof.getEmail();
+			}
+			sb.append("You have new message from Course: ");
+			sb.append(courseId);
+			sb.append("\n");
+			sb.append("Course Name: ");
+			sb.append(courseName);
+			sb.append("\n");
+			sb.append("Professor: ");
+			sb.append(profName);
+			sb.append("\n");
+			sb.append("Email: ");
+			sb.append(profEmail);
+			sb.append("\n");
+			sb.append("Announcement: ");
+			sb.append(message);
+			sb.append("\n");
+		}
+		
+		return sb.toString();
+	}
+
+	private void sendEmailNotification(String topicArn, final String message, final String subject) {
+		// Message Object
+		PublishRequest publishRequest = new PublishRequest(topicArn, message, subject);
+		// Call Client.publishMessage
+		SNS_CLIENT.publish(publishRequest);
+	}
+
 }

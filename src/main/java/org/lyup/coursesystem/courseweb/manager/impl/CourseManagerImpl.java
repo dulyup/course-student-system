@@ -1,19 +1,24 @@
 package org.lyup.coursesystem.courseweb.manager.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.lyup.coursesystem.courserservice.model.Announcement;
 import org.lyup.coursesystem.courserservice.model.Course;
 import org.lyup.coursesystem.courserservice.model.Lecture;
+import org.lyup.coursesystem.courserservice.model.Professor;
 import org.lyup.coursesystem.courserservice.model.Student;
 import org.lyup.coursesystem.courserservice.service.AnnouncementService;
 import org.lyup.coursesystem.courserservice.service.CourseService;
 import org.lyup.coursesystem.courserservice.service.LectureService;
+import org.lyup.coursesystem.courserservice.service.ProfessorService;
 import org.lyup.coursesystem.courserservice.service.StudentService;
 import org.lyup.coursesystem.courserservice.service.impl.AnnouncementServiceImpl;
 import org.lyup.coursesystem.courserservice.service.impl.CourseServiceImpl;
 import org.lyup.coursesystem.courserservice.service.impl.LectureServiceImpl;
+import org.lyup.coursesystem.courserservice.service.impl.ProfessorServiceImpl;
 import org.lyup.coursesystem.courserservice.service.impl.StudentServiceImpl;
 import org.lyup.coursesystem.courseweb.manager.CourseManager;
 
@@ -23,6 +28,7 @@ public class CourseManagerImpl implements CourseManager{
     private LectureService lectureService = new LectureServiceImpl();
     private StudentService studentService = new StudentServiceImpl();
     private AnnouncementService announcementService = new AnnouncementServiceImpl();
+    private ProfessorService professorService = new ProfessorServiceImpl();
 
     @Override
     public List<Course> listAllCourses() {
@@ -89,8 +95,14 @@ public class CourseManagerImpl implements CourseManager{
 
     @Override
     public Boolean addAnnouncementByCourseIdAndAnnoun(String courseId, Announcement an) {
-        announcementService.addAnnouncement(an);
-        courseService.getCourseById(courseId).getAnnouncementSet().add(an.getAnId());
+    		announcementService.addAnnouncement(an);
+    		Course course = courseService.getCourseById(courseId);
+        Set<String> anSet = course.getAnnouncementSet();
+        if (anSet == null) {
+        		anSet = new HashSet<String>();
+        }
+        anSet.add(an.getAnId());
+        courseService.updateCourse(courseId, course);
         return true;
     }
 
@@ -99,6 +111,12 @@ public class CourseManagerImpl implements CourseManager{
         courseService.getCourseById(courseId).getAnnouncementSet().remove(anId);
         announcementService.removeAnnouncementById(anId);
         return true;
+    }
+    
+    public Boolean addCourseProfessorByCourseId(String courseId, String profId) {
+    		courseService.getCourseById(courseId).setProfId(profId);
+    		professorService.getProfessorById(profId).getCourseSet().add(courseId);
+    		return true;
     }
 
 }

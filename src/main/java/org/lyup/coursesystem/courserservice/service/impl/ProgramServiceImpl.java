@@ -47,6 +47,9 @@ public class ProgramServiceImpl implements ProgramService{
     @Override
     public Boolean updateProgram(String id, Program program) {
         program.setProgramId(id);;
+        if (program.getCourseSet().size() == 0) {
+			program.setCourseSet(null);
+		}
         mapper.save(program);
         return true;
     }
