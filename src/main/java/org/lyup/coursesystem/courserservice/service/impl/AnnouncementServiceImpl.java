@@ -19,9 +19,9 @@ public class AnnouncementServiceImpl implements AnnouncementService{
 
     @Override
     public Boolean addAnnouncement(Announcement an) {
-    		String id = IdGeneratorUtil.generateId("c", count);
+    		String id = IdGeneratorUtil.generateId("a", count);
 		while (getAnnouncementById(id) != null) {
-			id = IdGeneratorUtil.generateId("c", count);
+			id = IdGeneratorUtil.generateId("a", count);
 		}
 		an.setAnId(id);
         mapper.save(an);
