@@ -9,7 +9,7 @@ import org.lyup.coursesystem.courseweb.manager.impl.LectureManagerImpl;
 
 import java.util.List;
 
-//@Path("/lectures")
+@Path("/lectures")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class LectureController {

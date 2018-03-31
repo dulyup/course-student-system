@@ -10,6 +10,7 @@ import org.lyup.coursesystem.courserservice.model.Student;
 import org.lyup.coursesystem.courseweb.manager.CourseManager;
 import org.lyup.coursesystem.courseweb.manager.impl.CourseManagerImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Path("/courses")
