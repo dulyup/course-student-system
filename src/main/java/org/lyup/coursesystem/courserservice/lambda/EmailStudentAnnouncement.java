@@ -25,8 +25,7 @@ public class EmailStudentAnnouncement implements RequestHandler<DynamodbEvent, S
 
 	@Override
 	public String handleRequest(DynamodbEvent input, Context context) {
-		String message = "hi";
-		String subject = "hi";
+		String message = "";
 		// Read DDB Records
 		if (input.getRecords() != null) {
 			for (DynamodbEvent.DynamodbStreamRecord record : input.getRecords()) {
@@ -36,14 +35,13 @@ public class EmailStudentAnnouncement implements RequestHandler<DynamodbEvent, S
 				context.getLogger().log("Record: " + record);
 				// Send notification
 				message = formatMessage(record);		
-				subject = formatSubject(record);
+				String subject = formatSubject(record);
 				// Business Logic to decide to send a notification
 
 				// send Notification
 				String courseId = record.getDynamodb().getNewImage().get("course_id").getS();
 				String topicArn = getTopicArnByCourseId(courseId);
-				sendEmailNotification(topicArn, message);
-//				sendEmailNotification(topicArn, message, subject);
+				sendEmailNotification(topicArn, message, subject);
 			}
 		}
 		return message;
@@ -123,19 +121,12 @@ public class EmailStudentAnnouncement implements RequestHandler<DynamodbEvent, S
 		
 		return sb.toString();
 	}
-
-	private void sendEmailNotification(String topicArn, final String message) {
+	
+	private void sendEmailNotification(String topicArn, final String message, final String subject) {
 		// Message Object
-		PublishRequest publishRequest = new PublishRequest(topicArn, message);
+		PublishRequest publishRequest = new PublishRequest(topicArn, message, subject);
 		// Call Client.publishMessage
 		SNS_CLIENT.publish(publishRequest);
 	}
-	
-//	private void sendEmailNotification(String topicArn, final String message, final String subject) {
-//		// Message Object
-//		PublishRequest publishRequest = new PublishRequest(topicArn, message, subject);
-//		// Call Client.publishMessage
-//		SNS_CLIENT.publish(publishRequest);
-//	}
 
 }
