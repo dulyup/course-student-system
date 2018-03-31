@@ -75,7 +75,6 @@ public class EmailStudentAnnouncement implements RequestHandler<DynamodbEvent, S
 	}
 
 	private String formatSubject(DynamodbStreamRecord record) {
-		System.out.println("map:" + record.getDynamodb().getNewImage());
 		Map<String, AttributeValue> map = record.getDynamodb().getNewImage();
 		String courseId = map.get("course_id").getS();
 		StringBuilder sb = new StringBuilder();
@@ -88,8 +87,6 @@ public class EmailStudentAnnouncement implements RequestHandler<DynamodbEvent, S
 		Map<String, AttributeValue> map = record.getDynamodb().getNewImage();
 		StringBuilder sb = new StringBuilder();
 		if (map != null) {
-			System.out.println("courseId: "+ map.get("course_id").getS());
-			System.out.println("message: "+ map.get("message").getS());
 			String message = map.get("message").getS();
 			String courseId = map.get("course_id").getS();
 			Course course = new CourseManagerImpl().getCourseById(courseId);
