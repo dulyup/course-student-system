@@ -40,9 +40,10 @@ public class EmailStudentAnnouncement implements RequestHandler<DynamodbEvent, S
 				// Business Logic to decide to send a notification
 
 				// send Notification
-				String courseId = record.getDynamodb().getNewImage().get("courseId").getS();
+				String courseId = record.getDynamodb().getNewImage().get("course_id").getS();
 				String topicArn = getTopicArnByCourseId(courseId);
-				sendEmailNotification(topicArn, message, subject);
+				sendEmailNotification(topicArn, message);
+//				sendEmailNotification(topicArn, message, subject);
 			}
 		}
 		return message;
@@ -78,7 +79,7 @@ public class EmailStudentAnnouncement implements RequestHandler<DynamodbEvent, S
 	private String formatSubject(DynamodbStreamRecord record) {
 		System.out.println("map:" + record.getDynamodb().getNewImage());
 		Map<String, AttributeValue> map = record.getDynamodb().getNewImage();
-		String courseId = map.get("anId").getS();
+		String courseId = map.get("course_id").getS();
 		StringBuilder sb = new StringBuilder();
 		sb.append("Message from Course ");
 		sb.append(courseId);
@@ -89,10 +90,10 @@ public class EmailStudentAnnouncement implements RequestHandler<DynamodbEvent, S
 		Map<String, AttributeValue> map = record.getDynamodb().getNewImage();
 		StringBuilder sb = new StringBuilder();
 		if (map != null) {
+			System.out.println("courseId: "+ map.get("course_id").getS());
+			System.out.println("message: "+ map.get("message").getS());
 			String message = map.get("message").getS();
-			System.out.println(map.get("anId").getS());
-			System.out.println(map.get("an_id").getS());
-			String courseId = map.get("anId").getS();
+			String courseId = map.get("course_id").getS();
 			Course course = new CourseManagerImpl().getCourseById(courseId);
 			String courseName = course.getCourseName();
 			String profId = course.getProfId();
@@ -123,11 +124,18 @@ public class EmailStudentAnnouncement implements RequestHandler<DynamodbEvent, S
 		return sb.toString();
 	}
 
-	private void sendEmailNotification(String topicArn, final String message, final String subject) {
+	private void sendEmailNotification(String topicArn, final String message) {
 		// Message Object
-		PublishRequest publishRequest = new PublishRequest(topicArn, message, subject);
+		PublishRequest publishRequest = new PublishRequest(topicArn, message);
 		// Call Client.publishMessage
 		SNS_CLIENT.publish(publishRequest);
 	}
+	
+//	private void sendEmailNotification(String topicArn, final String message, final String subject) {
+//		// Message Object
+//		PublishRequest publishRequest = new PublishRequest(topicArn, message, subject);
+//		// Call Client.publishMessage
+//		SNS_CLIENT.publish(publishRequest);
+//	}
 
 }
